@@ -5,7 +5,7 @@ from random import randint
 from gamesettings import ROW_SIZE, NUMBER_OF_TILES, NUMBER_OF_MINES
 
 class Board():
-    ''' An instance of the minesweeper game '''
+    """ Board class represents a board for the MineSweeper Game """
     def __init__(self):
         self.BOARD_CLEAR = False
         self.FREE_TILE_COUNT = NUMBER_OF_TILES - NUMBER_OF_MINES
@@ -14,6 +14,7 @@ class Board():
         self.calculateNeighboringMines()
 
     def generateMines(self):
+        """ Places mines at random tile positions in the entire grid list """
         for _ in range(NUMBER_OF_MINES):
             minePlaced = False
             while not minePlaced:
@@ -23,6 +24,7 @@ class Board():
                     minePlaced = True
 
     def calculateNeighboringMines(self):
+        """ Calculates the number of mines adjacent to each tile """
         for index, tile in enumerate(self.grid):
             checkUp = index > (ROW_SIZE-1)
             checkDown = index < (NUMBER_OF_TILES-ROW_SIZE)
@@ -52,7 +54,7 @@ class Board():
                 tile.neighboringMineCount += 1
 
         def cascade(self, index):
-            # We only CHECK a tile if it does not contain and is covered!!
+            """  Clears all mines that are adjacent to a given until a tile contained a mine is encountered. """
             if not self.grid[index].isCovered:
                 return
 
@@ -77,6 +79,7 @@ class Board():
 
 
     def cascadeOrClearOneMine(self, index):
+        """ If no top, bottom, left, or right neighboring mines call cascadeMine, else clear one mine """
         requiredConditions = ( index > (ROW_SIZE-1), ( (index+1) % ROW_SIZE ) != 0,  index < NUMBER_OF_TILES-ROW_SIZE,  (index % ROW_SIZE) != 0)
         if False in requiredConditions:
             self.clearTile(index)
@@ -85,11 +88,13 @@ class Board():
 
 
     def clearTile(self, index):
+        """ Sets a tile in the grid as uncovered """
         self.grid[index].displayCharacter = str(self.grid[index].neighboringMineCount)
         self.grid[index].isCovered = False
         self.FREE_TILE_COUNT -= 1
 
     def checkTile(self, index):
+        """ Checks a tile in the grid to determine if it contains a mine """
         status = {'boardClear' : False, 'containsMine' : False, 'isCovered' : True,  }
         if self.grid[index].containsMine:
             status['containsMine'] = True
@@ -102,7 +107,7 @@ class Board():
         return status
 
     def displayGrid(self):
-        ''' Display Grid '''
+        """ Show all display characters of mines in grid as a square matrix """
         print("\n           ** LET'S GO **")
         row = ''
         for index in range(len(self.grid)):
@@ -112,7 +117,7 @@ class Board():
                 row = ''
 
     def displayMines(self):
-        """ Display Mines """
+        """ Show mine position in grid as square matrix """
         print("\n       ** MINE PLACEMENT **")
         row = ""
         for index in range(len(self.grid)):
@@ -125,7 +130,7 @@ class Board():
                 row = ""
 
     def displayNeighbors(self):
-        """ Display Neighbor Count """
+        """ Show number of neighboring mines for each tile """
         print("\n        ** NEIGHBORING MINES **")
         row = ""
         for index in range(len(self.grid)):

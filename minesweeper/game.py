@@ -5,6 +5,7 @@ from time import sleep
 from gamesettings import ROW_SIZE, NUMBER_OF_TILES, NUMBER_OF_MINES
 
 def welcomeDisplay():
+    """ Print the welcome message to the console. """
     title = ['M', 'I', 'N', 'E', 'S', 'W', 'E', 'E', 'P', 'E', 'R']
 
     decorator = "===================================\n" \
@@ -19,20 +20,21 @@ def welcomeDisplay():
     print(decorator.format(welcomeStr))
 
 def mainDisplay():
-    title = ['M', 'I', 'N', 'E', 'S', 'W', 'E', 'E', 'P', 'E', 'R']
-
+    """ Print the Welcome message to the console """
     welcomeStr = "===================================\n" \
                     + "\t M I N E S W E E P E R\n" \
                     + "===================================="
     print(welcomeStr)
 
 class Game():
+    """ Represents the minesweeper game using the Board class """
     def __init__(self):
         self.board = Board()
         self.GAME_OVER = False
         self.WIN = False
 
     def getUserChoice(self):
+        """ get and validate user input """
         while True:
             userIn = input("Please select a tile between 1 and 100")
             try:
@@ -43,6 +45,7 @@ class Game():
                 return userIn - 1
 
     def makeMove(self, index):
+        """ Make a move in the game """
         status = self.board.checkTile(index)
         print(status)
         if status['containsMine']:
@@ -55,6 +58,7 @@ class Game():
             return True
 
     def welcomeAnimation(self):
+        """ Display the full welcome animation """
         welcomeDisplay()
         self.board.displayMines()
         sleep(1)
@@ -66,10 +70,12 @@ class Game():
             sleep(1)
 
     def gameDisplay(self):
+        """ Display the Game """
         mainDisplay()
         self.board.displayGrid()
 
     def mainLoop(self):
+        """ Main loop for the minesweeper game """
         self.welcomeAnimation()
         while not self.GAME_OVER:
             self.gameDisplay()

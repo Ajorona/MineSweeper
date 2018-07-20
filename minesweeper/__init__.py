@@ -1,1 +1,1 @@
- name = "rosalindproject"
+ name = "minesweeper"
